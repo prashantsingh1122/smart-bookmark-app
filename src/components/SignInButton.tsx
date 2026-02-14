@@ -1,13 +1,24 @@
 "use client";
 import { signInWithGoogle } from "@/lib/supabase/auth";
-import { useTransition } from "react";
+import { useState } from "react";
 
 export function SignInButton({ redirectTo = "/bookmarks" }: { redirectTo?: string }) {
-  const [pending, start] = useTransition();
+  const [pending, setPending] = useState(false);
+  
+  const handleClick = async () => {
+    setPending(true);
+    try {
+      await signInWithGoogle(redirectTo);
+    } catch (error) {
+      console.error("Sign in error:", error);
+    } finally {
+      setPending(false);
+    }
+  };
   
   return (
     <button
-      onClick={() => start(() => signInWithGoogle(redirectTo))}
+      onClick={handleClick}
       className="w-full inline-flex items-center justify-center rounded-md bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-sm font-medium text-zinc-900 dark:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
       disabled={pending}
     >
