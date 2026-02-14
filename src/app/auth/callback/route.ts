@@ -15,7 +15,8 @@ export async function GET(req: NextRequest) {
     code: code ? "present" : "missing",
     error: errorParam,
     errorDescription,
-    allParams: Object.fromEntries(url.searchParams)
+    allParams: Object.fromEntries(url.searchParams),
+    headers: Object.fromEntries(req.headers.entries())
   });
 
   // Handle OAuth errors (e.g., user denied access)
