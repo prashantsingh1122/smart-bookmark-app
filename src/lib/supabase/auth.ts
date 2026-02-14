@@ -4,6 +4,7 @@ import { supabase } from "./client";
 export async function signInWithGoogle(redirectTo?: string) {
   const redirectUrl = `${window.location.origin}/auth/callback${redirectTo ? `?next=${encodeURIComponent(redirectTo)}` : ""}`;
   console.log("Starting Google OAuth with redirect:", redirectUrl);
+  console.log("Current origin:", window.location.origin);
   
   try {
     const { data, error } = await supabase.auth.signInWithOAuth({
